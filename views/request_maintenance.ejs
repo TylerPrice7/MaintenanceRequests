@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom styling for the logout button position */
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>Request Maintenance Form</title>
+</head>
+<body>
+<div class="container">
+    <a href="/login" class="btn btn-danger logout-btn">Log Out</a>
+    <h3 class="mt-4">Request Maintenance</h3>
+    <form action="/submit-maintenance-request" method="POST" enctype="multipart/form-data">
+        <!-- Apartment Number (Read-only) -->
+        <div class="form-group">
+            <label for="apartment_number">Apartment Number</label>
+            <input type="text" class="form-control" id="apartment_number" name="apartment_number" value="<%= apartment_number %>" readonly>
+        </div>
+   
+        <!-- Area of Problem -->
+        <div class="form-group">
+            <label for="area">Area</label>
+            <select class="form-control" id="area" name="area">
+                <option value="Kitchen">Kitchen</option>
+                <option value="Bathroom">Bathroom</option>
+                <option value="Living Room">Living Room</option>
+                <option value="Bedroom">Bedroom</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description">Description of the Problem</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+
+        <!-- Photo (Optional) -->
+        <div class="form-group">
+            <label for="photo">Upload Photo (Optional)</label>
+            <input type="file" class="form-control-file" id="photo" name="photo">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+        <div><a href="/tenant_page" class="btn btn-primary mt-2">Cancel</a></div>
+    </form>
+    </div>
+    </div>
+</body>
+</html>

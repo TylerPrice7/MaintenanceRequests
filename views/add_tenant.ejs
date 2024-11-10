@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom styling for the logout button position */
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>Add Tenant Form</title>
+</head>
+<body>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(function() {
+            $('input[name="date_filter"]').daterangepicker({
+                timePicker: true,
+                timePicker24Hour: true,
+                singleDatePicker: true,
+                autoUpdateInput: false,
+                locale: {
+                    format: 'YYYY-MM-DD HH:mm:ss'
+                }
+            });
+            $('input[name="date_filter"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+            });
+            $('input[name="date_filter"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+        });
+    </script>
+    <a href="/login" class="btn btn-danger logout-btn">Log Out</a>
+    <h3 class="ml-2 mt-4">Add Tenant</h3>
+
+    <form id="searchResults" action="/add_tenant" method="POST">
+        <!--Tenant ID-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Tenant ID</div>
+                    </div>
+                    <input type="text" class="form-control" id="user-id" name="user_id" maxlength="6" value="<%= user_id ? user_id : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <!--Password-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Password</div>
+                    </div>
+                    <input type="text" class="form-control" id="password" name="password" maxlength="30" value="<%= password ? password : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <!--First Name-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">First Name</div>
+                    </div>
+                    <input type="text" class="form-control" id="first-name" name="first_name" maxlength="20" value="<%= first_name ? first_name : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <!--Last Name-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Last Name</div>
+                    </div>
+                    <input type="text" class="form-control" id="last-name" name="last_name" maxlength="20" value="<%= last_name ? last_name : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <!--Phone Numnber-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Phone Number</div>
+                    </div>
+                    <input type="text" class="form-control" id="phone-number" name="phone_number" maxlength="12" value="<%= phone_number ? phone_number : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <!--Email-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Email</div>
+                    </div>
+                    <input type="text" class="form-control" id="email" name="email" maxlength="50" value="<%= email ? email : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <!--Date of Check in-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Check-in Date</div>
+                    </div>
+                    <input class="form-control d-inline-block input-width" id="date-filter" type="text" name="date_filter" style="width: auto;"value="<%= check_in_date ? check_in_date : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <!--Date of Check out-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Check-out Date</div>
+                    </div>
+                    <input class="form-control d-inline-block input-width" id="date-filter" type="text" name="date_filter" style="width: auto;" value="<%= check_out_date ? check_out_date : ''%>" required>
+                </div>
+            </div>
+        </div>
+
+        <!--Apartment Number-->
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Apartment</div>
+                    </div>
+                    <input type="text" class="form-control" id="apartment-number" name="apartment_number" maxlength="5" value="<%= apartment_number ? apartment_number : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <button type="submit" name="action" value="add-tenant" class="btn btn-primary btn-success mb-2 ml-2 mr-2">Add Tenant</button>
+        </div>
+        <a href="admin_page" class="btn btn-primary ml-2 mb-2">Back</a>
+    </form>
+</body>
+</html>

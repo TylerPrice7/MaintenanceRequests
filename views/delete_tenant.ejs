@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Delete Tenant</title>
+    <style>
+        /* Custom styling for the logout button position */
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        </style>
+</head>
+<body>
+    <a href="/login" class="btn btn-danger logout-btn">Log Out</a>
+    <h3 class="mb-2 ml-2">Delete Tenant</h3>
+    
+    <form id="searchResults" action="/delete_tenant" method="POST">
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Tenant ID</div>
+                    </div>
+                    <input type="text" class="form-control" id="user-id" name="user_id" maxlength="6" value="<%= user_id ? user_id : ''%>" required>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <!-- Expand button to view tenant details -->
+            <button type="submit" name="action" value="expand" class="btn btn-primary mb-2 ml-2 mr-2">Expand</button>
+            <!-- Delete button to delete the tenant -->
+            <button type="submit" name="action" value="delete" class="btn btn-danger mb-2 mr-2">Delete Tenant</button>
+        </div>
+        <a href="admin_page" class="btn btn-primary ml-2 mb-2">Back</a>
+    </form>
+    
+</body>
+</html>

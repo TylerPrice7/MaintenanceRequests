@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<head>
+    <title>Staff Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom styling for the logout button position */
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(function() {
+          $('input[name="date_times"]').daterangepicker({
+              timePicker: true,
+              timePicker24Hour: true,
+              startDate: moment().startOf('hour'),
+              endDate: moment().startOf('hour').add(32, 'hour'),
+              autoUpdateInput: false,
+              locale: {
+                format: 'YYYY-MM-DD hh:mm'
+              }
+          });
+          $('input[name="date_times"]').on('apply.daterangepicker', function(ev, picker) {
+              $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm') + ' : ' + picker.endDate.format('YYYY-MM-DD hh:mm'));
+          });
+          $('input[name="date_times"]').on('cancel.daterangepicker', function(ev, picker) {
+              $(this).val('');
+          });
+        });
+        </script>
+        <script>
+            $(function() {
+                $('input[name="date_filter"]').daterangepicker({
+                    timePicker: true,
+                    timePicker24Hour: true,
+                    singleDatePicker: true,
+                    autoUpdateInput: false,
+                    locale: {
+                        format: 'YYYY-MM-DD hh:mm'
+                    }
+                });
+                $('input[name="date_filter"]').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm'));
+                });
+                $('input[name="date_filter"]').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                });
+            });
+        </script>
+
+    <a href="/login" class="btn btn-danger logout-btn">Log Out</a>
+    <h3> &numsp; Staff Page</h3>
+
+    <form id="searchResults">
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Apartment</div>
+                </div>
+                <input type="text" class="form-control input-width" id="apartment_number-filter" name="apartment_number" maxlength="5" value="<%= apartment_number ? apartment_number : ''%>">
+            </div>
+            </div>
+        </div>
+
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Area</div>
+                    </div>
+                    <!-- Area Filter (Select Dropdown for Room Type) -->
+                    <select class="form-control" name="area" id="area-filter">
+                        <option value=""></option>
+                        <option value="Kitchen" <% if (area === 'Kitchen') { %>selected<% } %>>Kitchen</option>
+                        <option value="Bathroom" <% if (area === 'Bathroom') { %>selected<% } %>>Bathroom</option>
+                        <option value="Living Room" <% if (area === 'Living Room') { %>selected<% } %>>Living Room</option>
+                        <option value="Bedroom" <% if (area === 'Bedroom') { %>selected<% } %>>Bedroom</option>
+                        <option value="Hallway" <% if (area === 'Hallway') { %>selected<% } %>>Hallway</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row align-items-center mb-2 ml-2">
+            <div class="col-auto">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                <div class="input-group-text">Date Range</div>
+                </div>
+                <input class="form-control d-inline-block input-width" id="calendar-range" type="text" name="date_times" style="width: auto;" value="<%= timestamp ? timestamp : ' '%>" >
+            </div>
+            </div>
+        </div>
+        <div>
+
+            <!-- Status Filter (Single Toggle Button for Completed) -->
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Status</div>
+                    </div>
+                    <div class="d-flex">
+                        <!-- Completed Toggle Button (Active when clicked, Green when enabled) -->
+                        <button type="button" class="btn btn-outline-success toggle-btn" id="completed-btn" data-bs-toggle="button" aria-pressed="true">
+                            Completed
+                        </button>
+                        <!-- Hidden Input to reflect the status -->
+                        <input type="hidden" id="status-filter" name="status" value="false">
+                    </div>
+                </div>
+            </div>
+
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary mb-2 ml-2 mr-2">Search</button>
+            <button type="button" class="btn btn-primary mb-2 mr-2" onclick="clearInput()">Clear</button>
+        </div>
+    </form>
+    <script>
+        function clearInput() {
+            document.getElementById("apartment_number-filter").value = '';
+            document.getElementById("area-filter").value = '';
+            document.getElementById("calendar-range").value = '';
+
+            // Reset the "Completed" status button to its initial "not completed" state
+            const completedBtn = document.getElementById("completed-btn");
+            completedBtn.classList.remove('active'); // Remove 'active' class to indicate it's not toggled
+            completedBtn.setAttribute('aria-pressed', 'false'); // Reset aria-pressed for accessibility
+
+            // Remove the hidden "status" input from the form (if it was added)
+            const statusInput = document.querySelector('input[name="status"]');
+            if (statusInput) {
+                statusInput.remove();
+            }
+        }
+    </script>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Request ID</th>
+                <th scope="col">Apartment Number</th>
+                <th scope="col">Area</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (requests.length === 0) { %>
+                <tr>
+                    <td colspan="7">No records found.</td>
+                </tr>
+            <% } else { %>
+                <% requests.forEach(record => { %>
+                    <tr class="request-row" data-id="<%= record.request_id %>">
+                        <td><a href="/request/<%= record.request_id %>"><%= record.request_id %></a></td>
+                        <td><%= record.apartment_number %></td>
+                        <td><%= record.area %></td>
+                        <td><%= record.status %></td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+
+    <script>
+        const form = document.getElementById('searchResults');
+        const completed_button = document.getElementById('completed-btn');
+
+        // Clicking the button activates the "Completed". Clicking again stops.
+        completed_button.addEventListener('click', function() {
+            // Toggle active state manually for better control
+            if (completed_button.classList.contains('active')) {
+                completed_button.classList.remove('active');
+            } else {
+                completed_button.classList.add('active');
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            // Get the active status from button.
+            const button_active = document.querySelector('.toggle-btn.active');
+            
+            // If button is active, add the status to the form.
+            if (button_active) {
+                const status_value = button_active.textContent.trim(); // 'Completed'
+                const status_input = document.createElement('input');
+                status_input.type = 'hidden';
+                status_input.name = 'status';
+                status_input.value = status_value;
+                form.appendChild(status_input);
+            }
+        });
+    </script>
+
+
+</body>
+</html>

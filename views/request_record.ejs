@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<h3>Expanded View %></h3>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Request ID</th>
+        <td><%= request.request_id %></td>
+    </tr>
+    <tr>
+        <th>Apartment Number</th>
+        <td><%= request.apartment_number %></td>
+    </tr>
+    <tr>
+        <th>Area</th>
+        <td><%= request.area %></td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td><%= request.description %></td>
+    </tr>
+    <tr>
+        <th>Date/Time</th>
+        <td><%= request.timestamp %></td>
+    </tr>
+    <tr>
+        <th>Photo</th>
+        <td>
+            <% if (request.photo) { %>
+                <img src="/pic_uploads/<%= request.photo %>" alt="Request Photo" width="100">
+            <% } else { %>
+                No Photo
+            <% } %>
+        </td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td><%= request.status %></td>
+    </tr>
+</table>
+
+<div class="d-flex">
+    <% if (request.status !== 'Completed') { %>
+            <form action="/request/<%= request.request_id %>/complete" method="POST">
+            <button type="submit" class="btn btn-primary mb-2 ml-2 mr-2">Mark as completed</button>
+            </form>
+    <% } %>
+</div>
+<div class="d-flex">
+    <a href="/staff_page" class="btn btn-primary mb-2 ml-2 mr-2">Back to Requests List</a>
+</div>
+
+</body>
+</html>
